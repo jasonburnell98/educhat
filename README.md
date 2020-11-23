@@ -4,11 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Dependencies
 # material ui
-// with npm
+
 npm install @material-ui/core
 npm install @material-ui/icons
 
-// with yarn
+# with yarn
 yarn add @material-ui/core
 npm install @material-ui/icons
 
