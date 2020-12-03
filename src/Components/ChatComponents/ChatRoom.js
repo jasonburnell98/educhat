@@ -1,12 +1,26 @@
 import React, { useRef, useState } from 'react';
-import { Button, TextField, Grid, Box } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Container,
+  InputAdornment,
+  Paper,
+  Typography,
+} from '@material-ui/core';
+import Spacer from 'react-add-space';
+import eduLogo from '../../Images/eduLogo.svg';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-
+import ChatIcon from '@material-ui/icons/Chat';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { ChatMessage } from './ChatMessage';
+import { useStyles } from './styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 const firestore = firebase.firestore();
 
 // firebase.initializeApp({
@@ -25,10 +39,11 @@ export const ChatRoom = () => {
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
 
+  const classes = useStyles();
   const [messages] = useCollectionData(query, { idField: 'id' });
   const auth = firebase.auth();
 
-  const [formValue, setFormValue] = useState('');
+  const [messageValue, setmessageValue] = useState('');
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -36,48 +51,85 @@ export const ChatRoom = () => {
     const { uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
-      text: formValue,
+      text: messageValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
     });
     console.log(query);
-    setFormValue('');
+    setmessageValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
-      <Box>
-        <Grid>
-          <Grid item>
-            {messages &&
-              messages.map((msg) => (
-                <ChatMessage key={msg.id} message={msg} />
-              ))}
+      {' '}
+      <Container component="main" maxWidth="md">
+        {/* <CssBaseline /> */}
+        <div className={classes.border}>
+          <Box>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Typography>Title</Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <div className={classes.notesContainer}>
+                  {messages &&
+                    messages.map((msg) => (
+                      <ChatMessage key={msg.id} message={msg} />
+                    ))}
+                </div>
+              </Grid>
+              <span ref={dummy}></span>
+            </Grid>
+          </Box>
+          <Grid item xs>
+            <form onSubmit={sendMessage}>
+              <div className={classes.noteInput}>
+                <Spacer amount={2} />{' '}
+                <TextField
+                  fullWidth
+                  value={messageValue}
+                  onChange={(e) => setmessageValue(e.target.value)}
+                  label={'Enter THE text here'}
+                  variant={'outlined'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {' '}
+                        <Button
+                          variant={'contained'}
+                          color={'primary'}
+                          type="submit"
+                          disabled={!messageValue}
+                        >
+                          <ChatIcon />
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+              {/* <Grid item xs={4}>
+            <div>
+              <Button
+                variant={'contained'}
+                color={'primary'}
+                type="submit"
+                disabled={!messageValue}
+              >
+                <ChatIcon />
+              </Button>
+            </div>
+          </Grid> */}
+            </form>
           </Grid>
-          <span ref={dummy}></span>
-        </Grid>
-      </Box>
-      <form onSubmit={sendMessage}>
-        <Grid item>
-          <TextField
-            fullWidth
-            value={formValue}
-            onChange={(e) => setFormValue(e.target.value)}
-            label={'Enter text here'}
-            variant={'outlined'}
-          />
-        </Grid>
-        <Button
-          variant={'contained'}
-          color={'primary'}
-          type="submit"
-          disabled={!formValue}
-        >
-          Send Message
-        </Button>
-      </form>
+        </div>
+      </Container>
+      <div className={classes.logo}>
+        <img src={eduLogo} />
+      </div>
     </>
   );
 };
