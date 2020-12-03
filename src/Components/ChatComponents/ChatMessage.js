@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  Button,
+  // Button,
   Paper,
   Container,
   Grid,
   Typography,
+  Tooltip,
 } from '@material-ui/core';
 import firebase from '../../Firebase';
-
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
@@ -27,29 +27,56 @@ export const ChatMessage = (props) => {
     <>
       <div className={`message ${messageClass}`}>
         <Container>
-          <Grid container spacing={3}>
-            <Grid item xs>
-              <div className={classes.noteWrap}>
-                <div>
-                  <Avatar
-                    className={classes.avatar}
-                    src={
-                      photoURL ||
-                      'https://api.adorable.io/avatars/23/abott@adorable.png'
-                    }
-                  />
-                  {uid === auth.currentUser.uid ? (
-                    <div>
+          {uid === auth.currentUser.uid ? (
+            <div className={classes.currUser}>
+              <Grid container spacing={3}>
+                <Grid item xs={11}>
+                  <div className={classes.currUserWrap}>
+                    <Grid item xs={1} direction={'column-reverse'}>
                       <EditDeleteMessage />
+                    </Grid>
+                    <Grid item xs={11}>
+                      {text}
+                    </Grid>
+                  </div>
+                </Grid>
+                <Grid item xs={1}>
+                  <div className={classes.avatar}>
+                    <Tooltip title={auth.currentUser.displayName}>
+                      <Avatar
+                        src={
+                          photoURL ||
+                          'https://api.adorable.io/avatars/23/abott@adorable.png'
+                        }
+                      />
+                    </Tooltip>
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+          ) : (
+            <div className={classes.otherUser}>
+              <Grid container spacing={3}>
+                <Grid item xs={1} className={classes.avatar}>
+                  <Tooltip title={auth.currentUser.displayName}>
+                    <Avatar
+                      src={
+                        photoURL ||
+                        'https://api.adorable.io/avatars/23/abott@adorable.png'
+                      }
+                    />
+                  </Tooltip>
+                </Grid>
+                <Grid item xs={11}>
+                  <div className={classes.nonCurrUserWrap}>
+                    <div>
+                      <p>{text}</p>
                     </div>
-                  ) : null}
-                </div>
-                <div>
-                  <p>{text}</p>
-                </div>
-              </div>
-            </Grid>
-          </Grid>
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+          )}
         </Container>
       </div>
     </>
