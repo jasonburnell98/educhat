@@ -15,21 +15,15 @@ export const useStyles = makeStyles((theme) => ({
         ? theme.palette.grey[300]
         : theme.palette.grey[700],
   },
-  root: {
-    display: 'flex',
-  },
+
   paper: {
     marginRight: theme.spacing(2),
   },
-  root: {
-    flexGrow: 1,
-  },
+
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
-  },
+
   mainIcons: {
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -73,6 +67,7 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: 'lowercase',
     color: theme.palette.primary.main,
     marginTop: -5,
+    flexGrow: 1,
   },
   titleIcon: {
     marginRight: theme.spacing(0.5),

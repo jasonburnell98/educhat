@@ -3,7 +3,6 @@ import {
   Button,
   Menu,
   MenuItem,
-  ListItem,
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
@@ -13,7 +12,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export const EditDeleteMessage = () => {
+export const EditDeleteMessage = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -30,17 +29,18 @@ export const EditDeleteMessage = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const deleteMessage = (props) => {
-    let bookName = props.message;
-
     firebase
       .firestore()
-      .collection('messages')
-      .where('text', '==', bookName)
+      .collection('categories')
+      .doc('My First Room')
+      .collection('meeages')
+      .where('text', '==', props.text)
       .get()
       .then((querySnapshot) => {
         querySnapshot.docs[0].ref.delete();
       });
   };
+
   const classes = useStyles();
   return (
     <>

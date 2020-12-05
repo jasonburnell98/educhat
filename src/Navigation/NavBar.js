@@ -1,12 +1,8 @@
 import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import {
   Button,
-  Menu,
   MenuItem,
-  List,
-  ListItem,
   ListItemIcon,
   ListItemText,
   Popper,
@@ -15,17 +11,10 @@ import {
   MenuList,
   ClickAwayListener,
   Toolbar,
-  Grid,
-  IconButton,
 } from '@material-ui/core';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import { Link } from 'react-router-dom';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
 import firebase from '../Firebase';
-import SettingsIcon from '@material-ui/icons/Settings';
-import LockIcon from '@material-ui/icons/Lock';
-import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -34,6 +23,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { Drawer } from '../Components/Drawer';
+import AddCommentIcon from '@material-ui/icons/AddComment';
 // import logo from '../logo.svg';
 
 // const useStyles = makeStyles((theme) =>
@@ -108,22 +98,20 @@ export const NavBar = (props) => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.leftContent}>
-              <img src={eduLogo} />
+              <img alt={''} src={eduLogo} />
             </Typography>
             <div className={classes.centerContent}>
-              <Tooltip title={'Select Category'}>
-                <Link className={classes.navStyle} to="/categories">
-                  <CheckBoxIcon />
+              <Tooltip title={'Add New'}>
+                <Link className={classes.navStyle} to="/addNew">
+                  <AddCommentIcon />
                 </Link>
               </Tooltip>
-              <Tooltip title={'Category List'}>
-                <Link
-                  className={classes.navStyle}
-                  to="/showCategories"
-                >
+              <Tooltip title={'Select Category'}>
+                <Link className={classes.navStyle} to="/categories">
                   <ListAltIcon />
                 </Link>
               </Tooltip>
+
               <Tooltip title={'Messages'}>
                 <Link className={classes.navStyle} to="/messages">
                   <ChatBubbleIcon />

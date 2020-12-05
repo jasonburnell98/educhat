@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  // Button,
-  Paper,
-  Container,
-  Grid,
-  Typography,
-  Tooltip,
-} from '@material-ui/core';
+import { Container, Grid, Tooltip } from '@material-ui/core';
 import firebase from '../../Firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -33,7 +26,7 @@ export const ChatMessage = (props) => {
                 <Grid item xs={11}>
                   <div className={classes.currUserWrap}>
                     <Grid item xs={1} direction={'column-reverse'}>
-                      <EditDeleteMessage />
+                      <EditDeleteMessage text={text} />
                     </Grid>
                     <Grid item xs={11}>
                       {text}
@@ -41,7 +34,7 @@ export const ChatMessage = (props) => {
                   </div>
                 </Grid>
                 <Grid item xs={1}>
-                  <div className={classes.avatar}>
+                  <div>
                     <Tooltip title={auth.currentUser.displayName}>
                       <Avatar
                         src={
@@ -57,15 +50,17 @@ export const ChatMessage = (props) => {
           ) : (
             <div className={classes.otherUser}>
               <Grid container spacing={3}>
-                <Grid item xs={1} className={classes.avatar}>
-                  <Tooltip title={auth.currentUser.displayName}>
-                    <Avatar
-                      src={
-                        photoURL ||
-                        'https://api.adorable.io/avatars/23/abott@adorable.png'
-                      }
-                    />
-                  </Tooltip>
+                <Grid item xs={1}>
+                  <div className={classes.avatar}>
+                    <Tooltip title={auth.currentUser.displayName}>
+                      <Avatar
+                        src={
+                          photoURL ||
+                          'https://api.adorable.io/avatars/23/abott@adorable.png'
+                        }
+                      />
+                    </Tooltip>
+                  </div>
                 </Grid>
                 <Grid item xs={11}>
                   <div className={classes.nonCurrUserWrap}>

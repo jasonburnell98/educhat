@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Spacer from 'react-add-space';
 import {
   BrowserRouter as Router,
@@ -10,22 +10,18 @@ import firebase from './Firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-import { useDarkMode } from './Components/useDarkMode';
-import Toggle from './Components/Toggler';
-import { Container, Grid } from '@material-ui/core';
+import { useDarkMode } from './Components/utils/useDarkMode';
+import Toggle from './Components/utils/Toggler';
 import { SignIn } from './Components/Authentication/SignIn';
 import { SignOut } from './Components/Authentication/SignOut';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { NavBar } from './Navigation/NavBar';
-import { ChatRoom } from './Components/ChatComponents/ChatRoom';
-import { Rnd } from 'react-rnd';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './Components/globalStyles';
-import { lightTheme, darkTheme } from './Components/Themes';
+import { lightTheme, darkTheme } from './Components/utils/Themes';
 import { CategoryPage } from './Pages/CategoryPage';
 import { Messages } from './Pages/Messages';
-import { ShowCategories } from './Pages/ShowCategoriesPage';
-
+import { AddNewTopic } from './Pages/AddNewTopic';
 const auth = firebase.auth();
 
 function App() {
@@ -34,25 +30,11 @@ function App() {
 
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
   return (
-    // <ThemeProvider
-    //   // theme={{ themeToggler }}
-    //   theme={theme === 'light' ? lightTheme : darkTheme}
-    //   //  theme={theme === 'light' ? lightTheme : darkTheme}
-    // >
     <ThemeProvider theme={themeMode}>
       <>
         <GlobalStyles />
         <Toggle theme={theme} toggleTheme={themeToggler} />
-        {/* <Rnd
-        default={{
-          x: 0,
-          y: 0,
-          width: 320,
-          height: 200,
-        }}
-      >
-        Rnd
-      </Rnd> */}
+
         <div className="App">
           <div>
             {user ? (
@@ -68,6 +50,7 @@ function App() {
                     component={CategoryPage}
                   />
                   <Route path="/messages" component={Messages} />
+                  <Route path="/addNew" component={AddNewTopic} />
                 </Switch>
               </Router>
             ) : (
