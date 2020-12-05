@@ -1,15 +1,10 @@
-import React, { useRef, useState } from 'react';
-
-import { ShowCategories } from '../Components/CategoryComponent/ShowCategories';
-
-import { useStyles } from './styles';
+import React from 'react';
 
 export const CategoryPage = (props) => {
-  const classes = useStyles();
-
   return (
     <>
-      <ShowCategories />
+      {/* <ShowCategories /> */}
+      <p>aa</p>
     </>
   );
 };

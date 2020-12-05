@@ -69,7 +69,13 @@ export const useStyles = makeStyles((theme) => ({
   deleteButton: {
     float: 'right',
   },
-
+  root: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
   notesContainer: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),

@@ -6,7 +6,6 @@ import {
   Box,
   Container,
   InputAdornment,
-  Paper,
   Typography,
 } from '@material-ui/core';
 import Spacer from 'react-add-space';
@@ -19,7 +18,6 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { ChatMessage } from './ChatMessage';
 import { useStyles } from './styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
 const firestore = firebase.firestore();
 
@@ -34,22 +32,46 @@ const firestore = firebase.firestore();
 //   measurementId: 'G-F3DCPYK0GV',
 // });
 
-export const ChatRoom = () => {
+export const ChatRoom = (props) => {
   const dummy = useRef();
-  const messagesRef = firestore.collection('messages');
+  // const messagesRef = firestore.collection('messages');
+  const [categoryValue, setCategoryValue] = useState('');
+
+  const categoryRef = firestore.collection('categories');
+  // console.log(categoryValue);
+
+  const addCategory = async (e) => {
+    e.preventDefault();
+
+    const { uid } = auth.currentUser;
+
+    await categoryRef.add({
+      text: categoryValue,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uid,
+    });
+    // console.log(query);
+    setCategoryValue('');
+
+    // dummy.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const auth = firebase.auth();
+
+  const messagesRef = firestore
+    .collection('categories')
+    .doc(props.title)
+    .collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
 
   const classes = useStyles();
   const [messages] = useCollectionData(query, { idField: 'id' });
-  const auth = firebase.auth();
 
   const [messageValue, setmessageValue] = useState('');
-
   const sendMessage = async (e) => {
     e.preventDefault();
 
     const { uid, photoURL } = auth.currentUser;
-
     await messagesRef.add({
       text: messageValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -70,7 +92,7 @@ export const ChatRoom = () => {
           <Box>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography>Title</Typography>
+                <h3>{props.title}</h3>
               </Grid>
 
               <Grid item xs={12}>
@@ -111,25 +133,38 @@ export const ChatRoom = () => {
                   }}
                 />
               </div>
-              {/* <Grid item xs={4}>
-            <div>
-              <Button
-                variant={'contained'}
-                color={'primary'}
-                type="submit"
-                disabled={!messageValue}
-              >
-                <ChatIcon />
-              </Button>
-            </div>
-          </Grid> */}
             </form>
+            {/* <form onSubmit={addCategory}>
+              <div className={classes.noteInput}>
+                <Spacer amount={2} />{' '}
+                <TextField
+                  fullWidth
+                  value={categoryValue}
+                  onChange={(e) => setCategoryValue(e.target.value)}
+                  label={'Enter Category'}
+                  variant={'outlined'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {' '}
+                        <Button
+                          variant={'contained'}
+                          color={'primary'}
+                          type="submit"
+                          disabled={!categoryValue}
+                        >
+                          <ChatIcon />
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+            </form> */}
           </Grid>
         </div>
       </Container>
-      <div className={classes.logo}>
-        <img src={eduLogo} />
-      </div>
+      <Spacer />
     </>
   );
 };

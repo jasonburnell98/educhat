@@ -1,32 +1,29 @@
 import React from 'react';
 import {
-  Button,
-  Paper,
   Container,
   Grid,
   Typography,
-  Tooltip,
-  Drawer,
   List,
   Divider,
   ListItem,
-  ListItemIcon,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   ListItemText,
 } from '@material-ui/core';
 import clsx from 'clsx';
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import firebase from '../../Firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import { useStyles } from './styles';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { ChatRoom } from '../ChatComponents/ChatRoom';
 
-import Avatar from '@material-ui/core/Avatar';
+import Spacer from 'react-add-space';
 
 export const ShowCategories = (props) => {
-  const { text, uid, photoURL } = props.category;
+  const { text, uid } = props.category;
   const auth = firebase.auth();
 
   const messageClass =
@@ -103,9 +100,34 @@ export const ShowCategories = (props) => {
           </React.Fragment>
         ))}
       </div> */}
-      {/* <div className={`message ${messageClass}`}>
-        {uid === auth.currentUser.uid ? <div>{text}</div> : null}
-      </div> */}
+
+      <Spacer />
+      <Container>
+        <div className={`message ${messageClass}`}>
+          <>
+            <div className={classes.root}>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography className={classes.heading}>
+                    {text}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <ChatRoom title={text} />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+            </div>
+          </>
+        </div>
+      </Container>
     </>
   );
 };
