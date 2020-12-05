@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import { Categories } from '../Components/CategoryComponent/Categories';
+import { ShowCategories } from '../Components/CategoryComponent/ShowCategories';
 
 import { useStyles } from './styles';
 
@@ -9,7 +9,7 @@ export const CategoryPage = (props) => {
 
   return (
     <>
-      <Categories />
+      <ShowCategories />
     </>
   );
 };

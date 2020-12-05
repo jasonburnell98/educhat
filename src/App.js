@@ -24,6 +24,7 @@ import { GlobalStyles } from './Components/globalStyles';
 import { lightTheme, darkTheme } from './Components/Themes';
 import { CategoryPage } from './Pages/CategoryPage';
 import { Messages } from './Pages/Messages';
+import { ShowCategories } from './Pages/ShowCategoriesPage';
 
 const auth = firebase.auth();
 

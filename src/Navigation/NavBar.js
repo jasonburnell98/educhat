@@ -26,12 +26,14 @@ import firebase from '../Firebase';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockIcon from '@material-ui/icons/Lock';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import eduLogo from '../Images/eduLogo.svg';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
+import { Drawer } from '../Components/Drawer';
 // import logo from '../logo.svg';
 
 // const useStyles = makeStyles((theme) =>
@@ -114,11 +116,20 @@ export const NavBar = (props) => {
                   <CheckBoxIcon />
                 </Link>
               </Tooltip>
+              <Tooltip title={'Category List'}>
+                <Link
+                  className={classes.navStyle}
+                  to="/showCategories"
+                >
+                  <ListAltIcon />
+                </Link>
+              </Tooltip>
               <Tooltip title={'Messages'}>
                 <Link className={classes.navStyle} to="/messages">
                   <ChatBubbleIcon />
                 </Link>
               </Tooltip>
+              <Drawer />
             </div>
             <div className={classes.rightContent}>
               <Tooltip title={'Menu'}>

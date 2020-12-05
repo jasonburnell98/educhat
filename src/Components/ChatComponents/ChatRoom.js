@@ -92,7 +92,7 @@ export const ChatRoom = () => {
                   fullWidth
                   value={messageValue}
                   onChange={(e) => setmessageValue(e.target.value)}
-                  label={'Enter THE text here'}
+                  label={'Enter text here'}
                   variant={'outlined'}
                   InputProps={{
                     endAdornment: (
