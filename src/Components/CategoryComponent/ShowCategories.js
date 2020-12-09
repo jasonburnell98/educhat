@@ -9,6 +9,8 @@ import {
   Divider,
   ListItem,
   Accordion,
+  AppBar,
+  Toolbar,
   AccordionSummary,
   AccordionDetails,
   IconButton,
@@ -33,13 +35,14 @@ import { ChatRoom } from '../ChatComponents/ChatRoom';
 import Spacer from 'react-add-space';
 
 export const ShowCategories = (props) => {
-  const { text, major, title, uid, photoURL } = props.category;
+  const { text, major, title, uid, photoURL, files } = props.category;
   const auth = firebase.auth();
 
   const messageClass =
     uid === auth.currentUser.uid ? 'sent' : 'received';
   const classes = useStyles();
   const [openD, setOpenD] = React.useState(false);
+  const [openD2, setOpenD2] = React.useState(false);
 
   const handleClickOpenD = (props) => {
     setOpenD(true);
@@ -47,6 +50,13 @@ export const ShowCategories = (props) => {
 
   const handleCloseD = () => {
     setOpenD(false);
+  };
+  const handleClickOpenD2 = (props) => {
+    setOpenD2(true);
+  };
+
+  const handleCloseD2 = () => {
+    setOpenD2(false);
   };
   const deleteCategory = async (e) => {
     var jobskill_query = firebase
@@ -91,6 +101,65 @@ export const ShowCategories = (props) => {
           </DialogActions>
         </Dialog>
       </div>
+      <div>
+        {' '}
+        <Dialog
+          fullScreen
+          open={openD2}
+          // TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseD2}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <AppBar>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={() => setOpenD2(false)}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Spacer />
+              <Typography>Image Preview</Typography>
+            </Toolbar>
+          </AppBar>
+          {/* <DialogTitle>
+            
+            <Grid container spacing={3}>
+              <Grid item xs={10}>
+                {' '}
+                {'Image Preview'}
+              </Grid>
+              <Grid item xs={2}>
+                {' '}
+                <div className={classes.closeButtonImage}>
+                  <IconButton onClick={handleCloseD2} color="primary">
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+              </Grid>
+            </Grid>
+          </DialogTitle> */}
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              <div className={classes.imageSize}>
+                <img
+                  src={files || 'not available'}
+                  alt="Image not available"
+                />
+              </div>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            {/* <Button onClick={deleteCategory} color="primary">
+              Yes
+            </Button> */}
+          </DialogActions>
+        </Dialog>
+      </div>
       <Spacer />{' '}
       <Container>
         <div className={`message ${messageClass}`}>
@@ -110,8 +179,26 @@ export const ShowCategories = (props) => {
                       <Grid item xs={6}>
                         <Typography className={classes.heading}>
                           <strong> {major}</strong> major with
-                          question: <i>{title}</i>{' '}
+                          subject: <i>{title}</i>{' '}
                         </Typography>
+
+                        {files ? (
+                          <Button
+                            variant={'contained'}
+                            color={'inherit'}
+                            onClick={handleClickOpenD2}
+                          >
+                            View Image
+                          </Button>
+                        ) : (
+                          'No Image'
+                        )}
+                        {/* <div>
+                          <img
+                            src={files || 'not available'}
+                            alt="Image not available"
+                          />
+                        </div> */}
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>

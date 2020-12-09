@@ -22,7 +22,7 @@ import { EditDeleteMessage } from './EditDeleteMessage';
 import Avatar from '@material-ui/core/Avatar';
 
 export const ChatMessage = (props) => {
-  const { text, uid, photoURL, displayName } = props.message;
+  const { text, uid, photoURL, files } = props.message;
   const auth = firebase.auth();
   console.log(auth.displayName);
 
@@ -96,9 +96,8 @@ export const ChatMessage = (props) => {
                         </MenuItem>
                       </Menu>
                     </Grid>
-                    <Grid item xs={11}>
-                      {text}
-                    </Grid>
+
+                    {text}
                   </div>
                 </Grid>
                 <Grid item xs={1}>

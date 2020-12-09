@@ -21,6 +21,9 @@ export const useStyles = makeStyles((theme) => ({
         : theme.palette.success.dark,
     // backgroundColor: '#3f5165',
   },
+  closeButtonImage: {
+    flaot: 'right',
+  },
   border: {
     border: 'double',
   },

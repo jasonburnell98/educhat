@@ -4,6 +4,9 @@ import {
   Grid,
   Container,
   Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Typography,
   MenuItem,
   Slide,
@@ -12,7 +15,7 @@ import { TextField, Select } from 'mui-rff';
 import firebase from 'firebase/app';
 
 import 'firebase/analytics';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import '@firebase/firestore';
 import '@firebase/auth';
 import '@firebase/storage';
@@ -35,21 +38,54 @@ const AddNewTopic = (props) => {
   const auth = firebase.auth();
   const [categoryValue, setCategoryValue] = useState('');
   const [majorValue, setMajorValue] = useState('');
-  const [userName, setUserName] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [isUploading, setIsuploading] = useState(false);
+  // const [userName, setUserName] = useState('');
+  // const [avatar, setAvatar] = useState('');
+  // const [isUploading, setIsuploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState('');
 
   var storage = firebase.storage();
 
-  var storageRef = storage.ref();
+  // console.log(spaceRef);
 
-  var imagesRef = storageRef.child('images');
-  var filename = '114e70db-c4d4-47b9-83dc-fba8fe900f8f.png';
-  var spaceRef = imagesRef.child(filename);
-  console.log(spaceRef);
+  const [image2, setImage2] = useState(null);
+  const [url, setUrl] = useState('');
 
+  const handleChanger = (e) => {
+    if (e.target.files[0]) {
+      setImage2(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = () => {
+    const uploadTask = storage
+      .ref(`images/${image2.name}`)
+      .put(image2);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+        );
+        setProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref('images')
+          .child(image2.name)
+          .getDownloadURL()
+          .then((url) => {
+            // console.log(url);
+            setUrl(url);
+          });
+      },
+    );
+  };
+  console.log('image: ', image2);
+  // const [image, setImage] = useState(null);
   const onSubmit = async (values) => {
     // values.preventDefault();
     props.history.push('/categories');
@@ -58,11 +94,12 @@ const AddNewTopic = (props) => {
       text: values.text,
       title: values.title,
       major: values.major,
-      // files: fileUrl,
+      files: url,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
     });
+    handleUpload();
     setCategoryValue(values.text);
     setMajorValue(values.major);
   };
@@ -80,7 +117,7 @@ const AddNewTopic = (props) => {
     // isUploading(false),
     firebase
       .storage()
-      .ref('images')
+      .ref('image')
       .child(filename)
       .getDownloadURL()
       .then((url) => setAvatarUrl(url));
@@ -117,30 +154,6 @@ const AddNewTopic = (props) => {
         />
       ),
     },
-    // {
-    //   size: 12,
-    //   field: (
-    //     <FileUploader
-    //       name={'files'}
-    //       accept={['image/*', 'video/*', 'application/*']}
-    //       // randomizeFilename
-    //       storageRef={firebase.storage().ref('images')}
-    //       // onUploadStart={handleUploadStart}
-    //       // onUploadError={handleUplaodError}
-    //       onUploadSuccess={handleUploadSuccess}
-    //     />
-    //     // <ProfilePage />
-    //     // <DropzoneArea
-    //     //   name={'files'}
-    //     //   acceptedFiles={['image/*', 'video/*', 'application/*']}
-    //     //   // onChange={handleChange}
-    //     //   showFileNames
-    //     //   dropzoneText="Click or Drag and Drop to add a file"
-    //     //   showAlerts={false}
-    //     //   filesLimit={20}
-    //     // />
-    //   ),
-    // },
     {
       size: 12,
       field: (
@@ -152,6 +165,50 @@ const AddNewTopic = (props) => {
           required={true}
           variant={'outlined'}
         />
+      ),
+    },
+    {
+      size: 12,
+      field: (
+        // <FileUploader
+        //   name={'files'}
+        //   accept={['image/*', 'video/*', 'application/*']}
+        //   // randomizeFilename
+        //   storageRef={firebase.storage().ref('images')}
+        //   // onUploadStart={handleUploadStart}
+        //   // onUploadError={handleUplaodError}
+        //   // onUploadSuccess={handleUploadSuccess}
+        // />
+        // <ProfilePage />
+        <>
+          <Accordion>
+            <AccordionSummary
+              // expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              Add Image
+            </AccordionSummary>
+            <AccordionDetails>
+              {' '}
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <input type="file" onChange={handleChanger} />
+                </Grid>
+                {/* <button onClick={handleUpload}>Upload</button> */}
+                <Grid item xs={12}>
+                  <Button
+                    color={'secondary'}
+                    disabled={!image2}
+                    onClick={handleUpload}
+                  >
+                    Add Image
+                  </Button>
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </>
       ),
     },
   ];
