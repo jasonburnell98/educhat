@@ -27,7 +27,7 @@ import firebase from '../Firebase';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import eduLogo from '../Images/eduLogo.svg';
+import eduLogoNavBar from '../Images/eduLogoNavBar.svg';
 import { useStyles } from './styles';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import AddCommentIcon from '@material-ui/icons/AddComment';
@@ -117,12 +117,71 @@ export const NavBar = (props) => {
                   secondary="Titania"
                 />
               </ListItem>
-              <Divider />
               <ListItem>
                 <h2>Release Notes</h2>
               </ListItem>
               <ListItem>
-                <h4>Version 1.0</h4>
+                <h3>Version 1.0</h3>
+              </ListItem>
+              <ListItem>
+                <h4>What's new with this version?</h4>
+              </ListItem>
+              <ListItem>
+                <ul>
+                  <li>Oauth is enabled</li>
+                  <li>
+                    Access to site is granted only to udel students
+                  </li>
+                  <li>
+                    Ability to create topics with major, discussion,
+                    and problem{' '}
+                  </li>
+                  <li>Ability to delete created topic rooms</li>
+                  <li>Change Theme to Dark Mode</li>
+                  <li>
+                    View Topic Rooms made by yourself and Others
+                  </li>
+                  <li>
+                    Ability to comment on topic rooms and message
+                    other users of the site
+                  </li>
+                </ul>
+              </ListItem>
+              <ListItem>
+                <h4>What to expect with version 2.0</h4>
+              </ListItem>
+              <ListItem>
+                <ul>
+                  <li>
+                    Alerts when user tries to login with an invalid
+                    email address
+                  </li>
+                  <li>
+                    Ability to attach files/images to topic rooms or
+                    messages
+                    <ul>
+                      {' '}
+                      <li>
+                        Firebase does not explicitly allow files to be
+                        added to documents
+                      </li>
+                      <li>
+                        Files must first be added to storage cloud in
+                        firebase{' '}
+                      </li>
+                      <li>file url gets added to document</li>
+                    </ul>
+                  </li>
+                  <li>Fix Dark Mode to work on all components</li>
+                  <li>
+                    Ability to delete messages contained in a
+                    collection
+                  </li>
+                  <li>
+                    More user control and information availability
+                    coming soon
+                  </li>
+                </ul>
               </ListItem>
             </List>
           </Dialog>
@@ -135,7 +194,7 @@ export const NavBar = (props) => {
                 className={classes.leftContent}
               >
                 <Link className={classes.navStyle} to="/home">
-                  <img alt={''} src={eduLogo} />
+                  <img alt={''} src={eduLogoNavBar} />
                 </Link>
               </Typography>
               <div className={classes.centerContent}>

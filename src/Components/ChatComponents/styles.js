@@ -21,6 +21,10 @@ export const useStyles = makeStyles((theme) => ({
         : theme.palette.success.dark,
     // backgroundColor: '#3f5165',
   },
+  categoryAv: {
+    float: 'right',
+    paddingRight: theme.spacing(2),
+  },
   border: {
     border: 'double',
   },

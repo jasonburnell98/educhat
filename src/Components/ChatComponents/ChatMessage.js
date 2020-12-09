@@ -22,11 +22,13 @@ import { EditDeleteMessage } from './EditDeleteMessage';
 import Avatar from '@material-ui/core/Avatar';
 
 export const ChatMessage = (props) => {
-  const { text, uid, photoURL } = props.message;
+  const { text, uid, photoURL, displayName } = props.message;
   const auth = firebase.auth();
+  console.log(auth.displayName);
 
   const messageClass =
     uid === auth.currentUser.uid ? 'sent' : 'received';
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -118,14 +120,12 @@ export const ChatMessage = (props) => {
               <Grid container spacing={3}>
                 <Grid item xs={1}>
                   <div className={classes.avatar}>
-                    <Tooltip title={auth.currentUser.displayName}>
-                      <Avatar
-                        src={
-                          photoURL ||
-                          'https://api.adorable.io/avatars/23/abott@adorable.png'
-                        }
-                      />
-                    </Tooltip>
+                    <Avatar
+                      src={
+                        photoURL ||
+                        'https://api.adorable.io/avatars/23/abott@adorable.png'
+                      }
+                    />
                   </div>
                 </Grid>
                 <Grid item xs={11}>

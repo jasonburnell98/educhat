@@ -15,6 +15,8 @@ import {
   IconButton,
   Slide,
 } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+
 import Spacer from 'react-add-space';
 
 import firebase from 'firebase/app';
@@ -147,18 +149,17 @@ export const ChatRoom = (props) => {
           <Box>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Tooltip
-                  title={
-                    <>
-                      <p>
-                        <strong>Author:</strong>{' '}
-                        {auth.currentUser.displayName}
-                      </p>{' '}
-                    </>
-                  }
-                >
-                  <h2>{props.title}</h2>
-                </Tooltip>
+                <h2>
+                  <div className={classes.categoryAv}>
+                    <Avatar
+                      src={
+                        props.avatar ||
+                        'https://api.adorable.io/avatars/23/abott@adorable.png'
+                      }
+                    />
+                  </div>
+                  {props.title}{' '}
+                </h2>
               </Grid>
               <Grid item xs={12}></Grid>
 

@@ -11,7 +11,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useStyles } from './styles';
 import { ShowCategories } from './ShowCategories';
 import { ScrollTop } from '../ScrollTop';
-import eduLogo from '../../Images/eduLogo.svg';
+import eduLogoCategories from '../../Images/eduLogoCategories.svg';
 import { withRouter } from 'react-router-dom';
 const firestore = firebase.firestore();
 
@@ -28,7 +28,7 @@ const Categories = (props) => {
   const [checked, setChecked] = React.useState(false);
   const onSubmit = async (values) => {
     // values.preventDefault();
-    props.history.push('/addNew');
+    props.history.push('/home');
   };
   return (
     <>
@@ -39,6 +39,7 @@ const Categories = (props) => {
             <h2>Navigate to a Topic of Your Interest</h2>
           </Grid>
         </Grid>
+        <Spacer />
       </div>
       <div>
         {categories &&
@@ -74,7 +75,7 @@ const Categories = (props) => {
         />
       </div>
       <div className={classes.logo}>
-        <img alt={''} src={eduLogo} />
+        <img alt={''} src={eduLogoCategories} />
       </div>
       <ScrollTop />
     </>

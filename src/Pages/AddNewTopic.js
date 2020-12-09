@@ -20,7 +20,7 @@ import Spacer from 'react-add-space';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Form } from 'react-final-form';
 import { majors } from './Helpers/majors';
-import eduLogo from '../Images/eduLogo.svg';
+import eduLogoCategories from '../Images/eduLogoCategories.svg';
 import { withRouter } from 'react-router-dom';
 import { useStyles } from './styles';
 import { DropzoneArea } from 'material-ui-dropzone';
@@ -243,7 +243,7 @@ const AddNewTopic = (props) => {
         </div>
       </Container>
       <Spacer />
-      <img alt={''} src={eduLogo} />
+      <img alt={''} src={eduLogoCategories} />
     </>
   );
 };

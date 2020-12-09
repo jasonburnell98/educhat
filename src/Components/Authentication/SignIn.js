@@ -16,7 +16,7 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import eduLogo from '../../Images/eduLogo.svg';
+import eduLogoSignIn from '../../Images/eduLogoSignIn.svg';
 import { useStyles } from './styles';
 
 import Paper from '@material-ui/core/Paper';
@@ -129,13 +129,12 @@ export const SignIn = () => {
             >
               <Paper elevation={4} className={classes.paper}>
                 <div className={classes.paper}>
+                  <Typography component="h1" variant="h5">
+                    <img alt={''} src={eduLogoSignIn} />
+                  </Typography>
                   <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                   </Avatar>
-                  <Typography component="h1" variant="h5">
-                    <img alt={''} src={eduLogo} />
-                    <p>Together We Can.</p>
-                  </Typography>
 
                   <Button
                     type="submit"

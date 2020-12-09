@@ -33,7 +33,7 @@ import { ChatRoom } from '../ChatComponents/ChatRoom';
 import Spacer from 'react-add-space';
 
 export const ShowCategories = (props) => {
-  const { text, major, title, uid } = props.category;
+  const { text, major, title, uid, photoURL } = props.category;
   const auth = firebase.auth();
 
   const messageClass =
@@ -135,7 +135,7 @@ export const ShowCategories = (props) => {
                 <AccordionDetails>
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
-                      <ChatRoom title={text} />
+                      <ChatRoom title={text} avatar={photoURL} />
                     </Grid>
                   </Grid>
                 </AccordionDetails>
