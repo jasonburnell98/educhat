@@ -72,14 +72,14 @@ export const NavBar = (props) => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.leftContent}>
-              <Link className={classes.navStyle} to="/addNew">
+              <Link className={classes.navStyle} to="/home">
                 <img alt={''} src={eduLogo} />
               </Link>
             </Typography>
             <div className={classes.centerContent}>
               <Tooltip title={'Ask Question'}>
-                <Link className={classes.navStyle} to="/addNew">
-                  {location.pathname === '/addNew' ? (
+                <Link className={classes.navStyle} to="/home">
+                  {location.pathname === '/home' ? (
                     <AddCommentIcon color={'secondary'} />
                   ) : (
                     <AddCommentIcon />

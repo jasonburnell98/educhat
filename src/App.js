@@ -50,7 +50,7 @@ function App() {
                     component={CategoryPage}
                   />
                   <Route path="/messages" component={Messages} />
-                  <Route path="/addNew" component={AddNewTopic} />
+                  <Route path="/home" component={AddNewTopic} />
                 </Switch>
               </Router>
             ) : (

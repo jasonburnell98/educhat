@@ -72,7 +72,7 @@ export const SignIn = () => {
           if (validAccount)
             <Link>
               <Router>
-                <Route path="/addNew" component={AddNewTopic} />
+                <Route path="/home" component={AddNewTopic} />
               </Router>
             </Link>;
           /// Redirect to homepage

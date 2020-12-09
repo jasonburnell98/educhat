@@ -117,30 +117,30 @@ const AddNewTopic = (props) => {
         />
       ),
     },
-    {
-      size: 12,
-      field: (
-        <FileUploader
-          name={'files'}
-          accept={['image/*', 'video/*', 'application/*']}
-          // randomizeFilename
-          storageRef={firebase.storage().ref('images')}
-          // onUploadStart={handleUploadStart}
-          // onUploadError={handleUplaodError}
-          onUploadSuccess={handleUploadSuccess}
-        />
-        // <ProfilePage />
-        // <DropzoneArea
-        //   name={'files'}
-        //   acceptedFiles={['image/*', 'video/*', 'application/*']}
-        //   // onChange={handleChange}
-        //   showFileNames
-        //   dropzoneText="Click or Drag and Drop to add a file"
-        //   showAlerts={false}
-        //   filesLimit={20}
-        // />
-      ),
-    },
+    // {
+    //   size: 12,
+    //   field: (
+    //     <FileUploader
+    //       name={'files'}
+    //       accept={['image/*', 'video/*', 'application/*']}
+    //       // randomizeFilename
+    //       storageRef={firebase.storage().ref('images')}
+    //       // onUploadStart={handleUploadStart}
+    //       // onUploadError={handleUplaodError}
+    //       onUploadSuccess={handleUploadSuccess}
+    //     />
+    //     // <ProfilePage />
+    //     // <DropzoneArea
+    //     //   name={'files'}
+    //     //   acceptedFiles={['image/*', 'video/*', 'application/*']}
+    //     //   // onChange={handleChange}
+    //     //   showFileNames
+    //     //   dropzoneText="Click or Drag and Drop to add a file"
+    //     //   showAlerts={false}
+    //     //   filesLimit={20}
+    //     // />
+    //   ),
+    // },
     {
       size: 12,
       field: (
