@@ -9,9 +9,7 @@ export const SignOut = () => {
     auth.currentUser && (
       <>
         <div onClick={() => auth.signOut()}>
-          <ListItemIcon>
-            <LockIcon />
-          </ListItemIcon>
+          <LockIcon />
         </div>
       </>
     )

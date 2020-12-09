@@ -4,7 +4,6 @@ import {
   Button,
   MenuItem,
   ListItemIcon,
-  ListItemText,
   Popper,
   Grow,
   Paper,
@@ -12,51 +11,26 @@ import {
   ClickAwayListener,
   Toolbar,
 } from '@material-ui/core';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import { Link } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
+
+import { Link, useLocation } from 'react-router-dom';
 import firebase from '../Firebase';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import eduLogo from '../Images/eduLogo.svg';
-import MenuIcon from '@material-ui/icons/Menu';
 import { useStyles } from './styles';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
-import { Drawer } from '../Components/Drawer';
 import AddCommentIcon from '@material-ui/icons/AddComment';
-// import logo from '../logo.svg';
-
-// const useStyles = makeStyles((theme) =>
-//   createStyles({
-//     root: {
-//       flexGrow: 1,
-//     },
-//     menuButton: {
-//       marginRight: theme.spacing(2),
-//     },
-//     title: {
-//       flexGrow: 1,
-//     },
-//   }),
-// );
+import LockIcon from '@material-ui/icons/Lock';
 
 export const NavBar = (props) => {
   const classes = useStyles();
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-  // const open = Boolean(anchorEl);
-  // const id = open ? 'simple-popover' : undefined;
-  // const openNotes = () => {
-  //   handleClose();
-  // };
   const auth = firebase.auth();
-
+  const { uid, photoURL } = auth.currentUser;
+  let location = useLocation();
+  console.log(location.pathname);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -94,42 +68,56 @@ export const NavBar = (props) => {
 
   return (
     auth.currentUser && (
-      <div className={classes.root}>
+      <div className={classes.rootS}>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.leftContent}>
-              <img alt={''} src={eduLogo} />
+              <Link className={classes.navStyle} to="/addNew">
+                <img alt={''} src={eduLogo} />
+              </Link>
             </Typography>
             <div className={classes.centerContent}>
-              <Tooltip title={'Add New'}>
+              <Tooltip title={'Ask Question'}>
                 <Link className={classes.navStyle} to="/addNew">
-                  <AddCommentIcon />
+                  {location.pathname === '/addNew' ? (
+                    <AddCommentIcon color={'secondary'} />
+                  ) : (
+                    <AddCommentIcon />
+                  )}
                 </Link>
               </Tooltip>
               <Tooltip title={'Select Category'}>
                 <Link className={classes.navStyle} to="/categories">
-                  <ListAltIcon />
+                  {location.pathname === '/categories' ? (
+                    <ListAltIcon color={'secondary'} />
+                  ) : (
+                    <ListAltIcon />
+                  )}
                 </Link>
               </Tooltip>
-
+              {/* 
               <Tooltip title={'Messages'}>
                 <Link className={classes.navStyle} to="/messages">
                   <ChatBubbleIcon />
                 </Link>
               </Tooltip>
-              <Drawer />
+              <Drawer /> */}
             </div>
             <div className={classes.rightContent}>
-              <Tooltip title={'Menu'}>
-                <Button
-                  ref={anchorRef}
-                  aria-controls={open ? 'menu-list-grow' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleToggle}
-                >
-                  <MenuIcon />
-                </Button>
-              </Tooltip>
+              <Button
+                ref={anchorRef}
+                aria-controls={open ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+              >
+                <Avatar
+                  src={
+                    photoURL ||
+                    'https://api.adorable.io/avatars/23/abott@adorable.png'
+                  }
+                />
+              </Button>
+
               <Popper
                 open={open}
                 anchorEl={anchorRef.current}
@@ -154,23 +142,28 @@ export const NavBar = (props) => {
                           id="menu-list-grow"
                           onKeyDown={handleListKeyDown}
                         >
-                          <MenuItem onClick={handleClose}>
-                            <Tooltip title={'Change Theme'}>
-                              <ListItemIcon
-                                onClick={props.themeToggler}
-                              >
+                          <div onClick={props.themeToggler}>
+                            <MenuItem onClick={handleClose}>
+                              <ListItemIcon>
                                 <Brightness4Icon />
                               </ListItemIcon>
-                            </Tooltip>
-                          </MenuItem>
-
-                          <MenuItem onClick={handleClose}>
-                            <Tooltip title={'Sign Out'}>
-                              <ListItemText>
-                                {props.signOut}
-                              </ListItemText>
-                            </Tooltip>
-                          </MenuItem>
+                              <Typography variant={'inherit'}>
+                                {' '}
+                                Change Theme
+                              </Typography>
+                            </MenuItem>
+                          </div>
+                          <div onClick={() => auth.signOut()}>
+                            <MenuItem onClick={handleClose}>
+                              <ListItemIcon>
+                                <LockIcon />
+                              </ListItemIcon>
+                              <Typography variant={'inherit'}>
+                                {' '}
+                                Sign Out
+                              </Typography>
+                            </MenuItem>
+                          </div>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>

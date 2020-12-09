@@ -1,5 +1,17 @@
 import React from 'react';
-import { Container, Grid, Tooltip } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Grid,
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from '../../Firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -16,6 +28,32 @@ export const ChatMessage = (props) => {
   const messageClass =
     uid === auth.currentUser.uid ? 'sent' : 'received';
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const openNotes = () => {
+    handleClose();
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+  const deleteMessage = async (e) => {
+    var jobskill_query = firebase
+      .firestore()
+      .collection('categories')
+      .where('text', '==', 'text');
+    jobskill_query.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
+      });
+    });
+  };
   return (
     <>
       <div className={`message ${messageClass}`}>
@@ -26,7 +64,35 @@ export const ChatMessage = (props) => {
                 <Grid item xs={11}>
                   <div className={classes.currUserWrap}>
                     <Grid item xs={1} direction={'column-reverse'}>
-                      <EditDeleteMessage text={text} />
+                      {/* <EditDeleteMessage text={text} /> */}
+                      <Button
+                        size={'small'}
+                        onClick={handleClick}
+                        // className={classes.avatar}
+                      >
+                        <MoreHorizIcon />
+                      </Button>
+                      <Menu
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        className={classes.deleteButton}
+                      >
+                        <MenuItem onClick={() => openNotes()}>
+                          <ListItemIcon>
+                            <EditIcon />
+                          </ListItemIcon>
+                          <ListItemText>Edit</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={deleteMessage}>
+                          {' '}
+                          <ListItemIcon>
+                            <DeleteIcon />
+                          </ListItemIcon>
+                          <ListItemText>Delete</ListItemText>
+                        </MenuItem>
+                      </Menu>
                     </Grid>
                     <Grid item xs={11}>
                       {text}

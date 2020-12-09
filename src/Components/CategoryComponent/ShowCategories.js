@@ -1,4 +1,6 @@
 import React from 'react';
+import CategoryIcon from '@material-ui/icons/Category';
+import CloseIcon from '@material-ui/icons/Close';
 import {
   Container,
   Grid,
@@ -9,7 +11,15 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  IconButton,
+  Tooltip,
   ListItemText,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from '@material-ui/core';
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -23,85 +33,65 @@ import { ChatRoom } from '../ChatComponents/ChatRoom';
 import Spacer from 'react-add-space';
 
 export const ShowCategories = (props) => {
-  const { text, uid } = props.category;
+  const { text, major, title, uid } = props.category;
   const auth = firebase.auth();
 
   const messageClass =
     uid === auth.currentUser.uid ? 'sent' : 'received';
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    left: false,
-  });
+  const [openD, setOpenD] = React.useState(false);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
+  const handleClickOpenD = (props) => {
+    setOpenD(true);
   };
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map(
-          (text, index) => (
-            <ListItem button key={text}>
-              {/* <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon> */}
-              <ListItemText primary={text} />
-            </ListItem>
-          ),
-        )}
-      </List>
-      <Divider />
-      {/* <List>
-        <div className={`message ${messageClass}`}>
-          {uid === auth.currentUser.uid ? <div>{text}</div> : null}
-        </div>
-      </List> */}
-      {/* <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List> */}
-    </div>
-  );
+
+  const handleCloseD = () => {
+    setOpenD(false);
+  };
+  const deleteCategory = async (e) => {
+    var jobskill_query = firebase
+      .firestore()
+      .collection('categories')
+      .where('text', '==', text);
+    jobskill_query.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
+      });
+    });
+  };
+
   return (
     <>
-      {/* <div> */}
-      {/* {['left'].map((anchor) => (
-          <React.Fragment key={anchor}>
-            <Button onClick={toggleDrawer(anchor, true)}>
-              {anchor}
+      <div>
+        {' '}
+        <Dialog
+          open={openD}
+          // TransitionComponent={Transition}
+          keepMounted
+          onClose={handleCloseD}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            {'Confirm Changes'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Are you sure you want to delete this collection? You
+              will not be able to recover any of the contents.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseD} color="primary">
+              No, Cancel
             </Button>
-            <Drawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
-            >
-              {list(anchor)}
-            </Drawer>
-          </React.Fragment>
-        ))}
-      </div> */}
-
-      <Spacer />
+            <Button onClick={deleteCategory} color="primary">
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      <Spacer />{' '}
       <Container>
         <div className={`message ${messageClass}`}>
           <>
@@ -112,9 +102,35 @@ export const ShowCategories = (props) => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className={classes.heading}>
-                    {text}
-                  </Typography>
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Grid item xs={6}>
+                        <CategoryIcon />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography className={classes.heading}>
+                          <strong> {major}</strong> major with
+                          question: <i>{title}</i>{' '}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                      {uid === auth.currentUser.uid ? (
+                        <div className={classes.closeIcon}>
+                          <IconButton
+                            color={'primary'}
+                            className={classes.closeIcon}
+                            // onClick={handleClickOpenD}
+                          >
+                            {' '}
+                            <Tooltip title={'Delete'}>
+                              <CloseIcon onClick={handleClickOpenD} />
+                            </Tooltip>
+                          </IconButton>
+                        </div>
+                      ) : null}
+                    </Grid>
+                  </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid container spacing={3}>
