@@ -3,6 +3,12 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
+  root2: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',

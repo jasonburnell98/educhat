@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   TextField,
@@ -6,10 +6,17 @@ import {
   Box,
   Container,
   InputAdornment,
-  Typography,
+  Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Slide,
 } from '@material-ui/core';
 import Spacer from 'react-add-space';
-import eduLogo from '../../Images/eduLogo.svg';
+
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -18,51 +25,40 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { ChatMessage } from './ChatMessage';
 import { useStyles } from './styles';
-
+import CloseIcon from '@material-ui/icons/Close';
 const firestore = firebase.firestore();
-
-// firebase.initializeApp({
-//   apiKey: 'AIzaSyBDFS9pE-JQ-40I69nKUcesvqoKnM3vFBw',
-//   authDomain: 'educhat-7d070.firebaseapp.com',
-//   databaseURL: 'https://educhat-7d070.firebaseio.com',
-//   projectId: 'educhat-7d070',
-//   storageBucket: 'educhat-7d070.appspot.com',
-//   messagingSenderId: '116732943229',
-//   appId: '1:116732943229:web:34d9831b4f0e4359088a14',
-//   measurementId: 'G-F3DCPYK0GV',
-// });
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export const ChatRoom = (props) => {
-  const dummy = useRef();
-  // const messagesRef = firestore.collection('messages');
-  const [categoryValue, setCategoryValue] = useState('');
+  // const dummy = useRef();
+  // const [categoryValue, setCategoryValue] = useState('');
 
-  const categoryRef = firestore.collection('categories');
-  // console.log(categoryValue);
+  // const categoryRef = firestore.collection('categories');
 
-  const addCategory = async (e) => {
-    e.preventDefault();
+  // const addCategory = async (e) => {
+  //   e.preventDefault();
 
-    const { uid } = auth.currentUser;
+  //   await categoryRef.add({
+  //     text: categoryValue,
+  //     createdAt: new Date(),
+  //     uid,
+  //   });
+  //   // console.log(query);
+  //   setCategoryValue('');
 
-    await categoryRef.add({
-      text: categoryValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-    });
-    // console.log(query);
-    setCategoryValue('');
-
-    // dummy.current.scrollIntoView({ behavior: 'smooth' });
-  };
+  //   // dummy.current.scrollIntoView({ behavior: 'smooth' });
+  // };
 
   const auth = firebase.auth();
-
+  // const uid = auth.currentUse
+  const uid = auth.currentUser;
   const messagesRef = firestore
     .collection('categories')
     .doc(props.title)
     .collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+  const query = messagesRef.orderBy('createdAt');
 
   const classes = useStyles();
   const [messages] = useCollectionData(query, { idField: 'id' });
@@ -80,30 +76,103 @@ export const ChatRoom = (props) => {
     });
     console.log(query);
     setmessageValue('');
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
+    // dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
+  console.log(messageValue);
+
+  // const deleteCategory = async (e) => {
+  //   var jobskill_query = firebase
+  //     .firestore()
+  //     .collection('categories')
+  //     .where('text', '==', props.title);
+  //   jobskill_query.get().then(function (querySnapshot) {
+  //     querySnapshot.forEach(function (doc) {
+  //       doc.ref.delete();
+  //     });
+  //   });
+  // };
+
+  // const deleteMessage = async (e) => {
+  //   var jobskill_kill = firebase
+  //     .firestore()
+  //     .colection('categories')
+  //     .where('text', '==', props.title)
+  //     .collecton(messages);
+  // };
+  // const deleteMessage = async (e) => {
+  //   var jobskill_query = firebase
+  //     .firestore()
+  //     .collection('categories')
+  //     .doc(props.title)
+  //     .collection('messages')
+  //     .where(
+  //       'text',
+  //       '==',
+  //       messages.forEach((msg) => msg.idField),
+  //     );
+  //   jobskill_query.get().then(function (querySnapshot) {
+  //     querySnapshot.forEach(function (doc) {
+  //       doc.ref.delete();
+  //     });
+  //   });
+  // };
+  // const [categoryMenu, setCategoryMenu] = useState(null);
+  // // const open = Boolean(categoryMenu);
+
+  // const handleClick = (event) => {
+  //   setCategoryMenu(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setCategoryMenu(null);
+  // };
+
+  const [openD, setOpenD] = React.useState(false);
+
+  const handleClickOpenD = (props) => {
+    setOpenD(true);
+  };
+
+  const handleCloseD = () => {
+    setOpenD(false);
+  };
+  const categoryClass =
+    uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (
     <>
-      {' '}
+      <div></div>{' '}
       <Container component="main" maxWidth="md">
-        {/* <CssBaseline /> */}
         <div className={classes.border}>
+          {' '}
           <Box>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <h3>{props.title}</h3>
+                <Tooltip
+                  title={
+                    <>
+                      <p>
+                        <strong>Author:</strong>{' '}
+                        {auth.currentUser.displayName}
+                      </p>{' '}
+                    </>
+                  }
+                >
+                  <h2>{props.title}</h2>
+                </Tooltip>
               </Grid>
+              <Grid item xs={12}></Grid>
 
               <Grid item xs={12}>
                 <div className={classes.notesContainer}>
                   {messages &&
                     messages.map((msg) => (
-                      <ChatMessage key={msg.id} message={msg} />
+                      <>
+                        <ChatMessage key={msg.id} message={msg} />
+                      </>
                     ))}
                 </div>
               </Grid>
-              <span ref={dummy}></span>
+              {/* <span ref={dummy}></span> */}
             </Grid>
           </Box>
           <Grid item xs>

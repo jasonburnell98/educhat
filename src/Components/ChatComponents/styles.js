@@ -59,6 +59,10 @@ export const useStyles = makeStyles((theme) => ({
   input: {
     marginTop: theme.spacing(2),
   },
+  closeIcon: {
+    float: 'right',
+    padding: theme.spacing(1),
+  },
   avatar: {
     float: 'left',
     textAlign: 'center',
@@ -99,5 +103,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   logo: {
     padding: theme.spacing(2),
+  },
+  header: {
+    paddingLeft: theme.spacing(2),
   },
 }));

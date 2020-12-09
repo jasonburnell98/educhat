@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme) => ({
   root: {
+    flexGrow: 1,
     display: 'flex',
     '& > *': {
       margin: theme.spacing(1),
@@ -71,5 +72,15 @@ export const useStyles = makeStyles((theme) => ({
   },
   titleIcon: {
     marginRight: theme.spacing(0.5),
+  },
+
+  rootS: {
+    flexGrow: 1,
+  },
+  menuButtonS: {
+    marginRight: theme.spacing(2),
+  },
+  titleS: {
+    flexGrow: 1,
   },
 }));

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-
+import { Grid, Slide, Paper } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { Form, Field } from 'react-final-form';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -11,9 +12,10 @@ import { useStyles } from './styles';
 import { ShowCategories } from './ShowCategories';
 import { ScrollTop } from '../ScrollTop';
 import eduLogo from '../../Images/eduLogo.svg';
+import { withRouter } from 'react-router-dom';
 const firestore = firebase.firestore();
 
-export const Categories = (props) => {
+const Categories = (props) => {
   const classes = useStyles();
   const categoriesRef = firestore.collection('categories');
 
@@ -23,26 +25,54 @@ export const Categories = (props) => {
   const [categories] = useCollectionData(queryCategories, {
     idField: 'id',
   });
-  console.log(queryCategories);
-
-  // dummy.current.scrollIntoView({ behavior: 'smooth' });
+  const [checked, setChecked] = React.useState(false);
+  const onSubmit = async (values) => {
+    // values.preventDefault();
+    props.history.push('/addNew');
+  };
   return (
     <>
+      {' '}
       <div>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <h2>Welcome to the Chat Rooms</h2>
+            <h2>Navigate to a Topic of Your Interest</h2>
           </Grid>
         </Grid>
       </div>
-
       <div>
         {categories &&
           categories.map((cat) => (
-            <ShowCategories key={cat.id} category={cat} />
+            <>
+              <ShowCategories key={cat.id} category={cat} />
+            </>
           ))}
+        <Form
+          onSubmit={onSubmit}
+          render={({
+            handleSubmit,
+            form,
+            submitting,
+            pristine,
+            reset,
+            value,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <div className={classes.buttonWrap}>
+                <Button
+                  type={'submit'}
+                  classes={{
+                    root: classes.buttonAddMore, // class name, e.g. `classes-nesting-root-x`
+                    label: classes.buttonLabelAddMore, // class name, e.g. `classes-nesting-label-x`
+                  }}
+                >
+                  Ask Question?
+                </Button>
+              </div>
+            </form>
+          )}
+        />
       </div>
-      <Spacer />
       <div className={classes.logo}>
         <img alt={''} src={eduLogo} />
       </div>
@@ -50,3 +80,5 @@ export const Categories = (props) => {
     </>
   );
 };
+
+export default withRouter(Categories);

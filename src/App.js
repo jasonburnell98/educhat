@@ -21,7 +21,7 @@ import { GlobalStyles } from './Components/globalStyles';
 import { lightTheme, darkTheme } from './Components/utils/Themes';
 import { CategoryPage } from './Pages/CategoryPage';
 import { Messages } from './Pages/Messages';
-import { AddNewTopic } from './Pages/AddNewTopic';
+import AddNewTopic from './Pages/AddNewTopic';
 const auth = firebase.auth();
 
 function App() {

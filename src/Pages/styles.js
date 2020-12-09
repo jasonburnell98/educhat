@@ -24,6 +24,7 @@ export const useStyles = makeStyles((theme) => ({
   border: {
     border: 'double',
   },
+
   nonCurrUserWrap: {
     paddingRight: theme.spacing(4),
 

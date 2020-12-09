@@ -1,6 +1,9 @@
 import React from 'react';
 import {
   Button,
+  Container,
+  Grid,
+  Tooltip,
   Menu,
   MenuItem,
   ListItemIcon,
@@ -14,6 +17,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 export const EditDeleteMessage = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const { text, major, createdAt } = props.category;
+
+  // const auth = firebase.auth();
+
+  // const { uid, photoURL, text } = auth.currentUser;
+  // console.log(text);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,26 +34,26 @@ export const EditDeleteMessage = (props) => {
   const openNotes = () => {
     handleClose();
   };
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
-  const deleteMessage = (props) => {
-    firebase
+  const deleteMessage = async (e) => {
+    var jobskill_query = firebase
       .firestore()
       .collection('categories')
-      .doc('My First Room')
-      .collection('meeages')
-      .where('text', '==', props.text)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.docs[0].ref.delete();
+      .where('text', '==', 'text');
+    jobskill_query.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
       });
+    });
   };
 
   const classes = useStyles();
   return (
     <>
-      <Button
+      <div></div>
+      {/* <Button
         size={'small'}
         onClick={handleClick}
         // className={classes.avatar}
@@ -57,14 +66,6 @@ export const EditDeleteMessage = (props) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         className={classes.deleteButton}
-        // anchorOrigin={{
-        //   vertical: 'bottom',
-        //   horizontal: 'center',
-        // }}
-        // transformOrigin={{
-        //   vertical: 'top',
-        //   horizontal: 'center',
-        // }}
       >
         <MenuItem onClick={() => openNotes()}>
           <ListItemIcon>
@@ -72,26 +73,14 @@ export const EditDeleteMessage = (props) => {
           </ListItemIcon>
           <ListItemText>Edit</ListItemText>
         </MenuItem>
-        <MenuItem>
-          <ListItemText>
-            <Button onClick={deleteMessage}>
-              {' '}
-              <ListItemIcon>
-                <DeleteIcon />
-              </ListItemIcon>
-              Delete
-            </Button>{' '}
-          </ListItemText>
+        <MenuItem onClick={deleteMessage}>
+          {' '}
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
         </MenuItem>
-      </Menu>
-      {/* <Button
-        className={classes.deleteButton}
-        color={'secondary'}
-        variant={'contained'}
-        onClick={deleteMessage}
-      >
-        Delete
-      </Button> */}
+      </Menu> */}
     </>
   );
 };
