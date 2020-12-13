@@ -1,3 +1,8 @@
+First clone secondDeploy or dev branch!
+once cloned, if all of the dependencies are installed, can simply type npm run start in the terminal to check out the app. 
+https://educhat-7d070.web.app/home
+App can also be viewed using the above link.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

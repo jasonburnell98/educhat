@@ -34,7 +34,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export const ChatRoom = (props) => {
-  // const dummy = useRef();
+  const dummy = useRef();
   // const [categoryValue, setCategoryValue] = useState('');
 
   // const categoryRef = firestore.collection('categories');
